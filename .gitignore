@@ -1,0 +1,12 @@
+*.[oa]
+*.o
+*.or
+*.ppu
+*.lps
+*.compiled
+*.bak*
+*.exe
+*.dll
+*.bat
+*.dbg
+lib/

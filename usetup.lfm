@@ -1,0 +1,83 @@
+object fSetup: TfSetup
+  Left = 244
+  Height = 170
+  Top = 99
+  Width = 370
+  BorderStyle = bsDialog
+  Caption = 'Connection Setup'
+  ClientHeight = 170
+  ClientWidth = 370
+  Font.CharSet = ANSI_CHARSET
+  Font.Height = -12
+  Font.Name = 'Tahoma'
+  Font.Pitch = fpVariable
+  Font.Quality = fqDraft
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Position = poOwnerFormCenter
+  LCLVersion = '1.3'
+  object GroupBox1: TGroupBox
+    Left = 16
+    Height = 104
+    Top = 8
+    Width = 336
+    ClientHeight = 85
+    ClientWidth = 332
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 16
+      Height = 14
+      Top = 8
+      Width = 36
+      Caption = 'Device'
+      ParentColor = False
+    end
+    object Label2: TLabel
+      Left = 16
+      Height = 14
+      Top = 40
+      Width = 56
+      Caption = 'Baud Rate'
+      ParentColor = False
+    end
+    object vCbDevice: TComboBox
+      Left = 88
+      Height = 22
+      Top = 8
+      Width = 228
+      ItemHeight = 14
+      OnChange = vCbDeviceChange
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object cbBaud: TComboBox
+      Left = 88
+      Height = 22
+      Top = 40
+      Width = 104
+      ItemHeight = 14
+      Style = csDropDownList
+      TabOrder = 1
+    end
+    object cbDevice: TComboBox
+      Left = 280
+      Height = 22
+      Top = 8
+      Width = 36
+      ItemHeight = 14
+      Style = csDropDownList
+      TabOrder = 2
+      Visible = False
+    end
+  end
+  object Button2: TButton
+    Left = 224
+    Height = 33
+    Top = 120
+    Width = 128
+    Caption = 'Save And Connect'
+    Default = True
+    OnClick = Button2Click
+    TabOrder = 1
+  end
+end
