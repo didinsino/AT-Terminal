@@ -13,7 +13,6 @@ object fStartup: TfStartup
   Font.Pitch = fpVariable
   Font.Quality = fqDraft
   OnCreate = FormCreate
-  OnShow = FormShow
   Position = poOwnerFormCenter
   LCLVersion = '1.3'
   object Memo1: TMemo

@@ -17,7 +17,6 @@ type
     Memo1: TMemo;
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
   private
     { private declarations }
   public
@@ -45,10 +44,6 @@ end;
 procedure TfStartup.FormCreate(Sender: TObject);
 begin
   SC_PATH := CFG_PATH + 'startupcmd';
-end;
-
-procedure TfStartup.FormShow(Sender: TObject);
-begin
   if FileExists(SC_PATH) then
     Memo1.Lines.LoadFromFile(SC_PATH);
 end;

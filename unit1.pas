@@ -15,7 +15,6 @@ type
   TForm1 = class(TForm)
     cbTmp: TComboBox;
     eCmd: TEdit;
-    MenuItem1: TMenuItem;
     mnConn: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem2: TMenuItem;
@@ -37,7 +36,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
-    procedure MenuItem1Click(Sender: TObject);
     procedure mnConnClick(Sender: TObject);
     procedure MenuItem8Click(Sender: TObject);
     procedure mmCmdChange(Sender: TObject);
@@ -59,7 +57,7 @@ const
 
 implementation
 
-uses fnserialport, usetup, ustartup;
+uses fnserialport, usetup;
 
 {$R *.lfm}
 
@@ -139,11 +137,6 @@ end;
 procedure TForm1.MenuItem10Click(Sender: TObject);
 begin
   fSetup.ShowModal;
-end;
-
-procedure TForm1.MenuItem1Click(Sender: TObject);
-begin
-  fStartup.ShowModal;
 end;
 
 procedure TForm1.mnConnClick(Sender: TObject);
@@ -250,23 +243,13 @@ begin
 end;
 
 function TForm1.ConnectToPort(dev, br: string): boolean;
-var
-  i: integer;
-  cmd: string;
 begin
   Result:=False;
-  if Form1.vsComPort1.Active then
-    Form1.vsComPort1.Close;
+  if vsComPort1.Active then vsComPort1.Close;
   vsComPort1.Device:=dev;
   vsComPort1.BaudRate:=StrToBaudRate(br);
   try
     vsComPort1.Open;
-    // run startup commands
-    for i:=0 to fStartup.Memo1.Lines.Count-1 do begin
-      cmd:=Trim(fStartup.Memo1.Lines[i]);
-      if cmd <> '' then
-        vsComPort1.WriteData(cmd + sLineBreak);
-    end;
     DEV_PORT:=dev;
     DEV_BAUDRATE:=br;
     Self.Caption:=APP_TITLE + ' - Connected to '+dev;

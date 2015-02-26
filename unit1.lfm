@@ -135,9 +135,5 @@ object Form1: TForm1
       Caption = 'Connecion Setup'
       OnClick = MenuItem10Click
     end
-    object MenuItem1: TMenuItem
-      Caption = 'Startup Commands'
-      OnClick = MenuItem1Click
-    end
   end
 end
