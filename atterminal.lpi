@@ -104,7 +104,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="5">
       <Unit0>
         <Filename Value="atterminal.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -128,8 +128,14 @@
       <Unit3>
         <Filename Value="fnserialport.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="FnSerialPort"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="ustartup.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fStartup"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ustartup"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

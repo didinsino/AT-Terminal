@@ -55,10 +55,10 @@ object Form1: TForm1
     ParentColor = False
     TabOrder = 0
     object eCmd: TEdit
-      Left = 8
+      Left = 24
       Height = 15
       Top = 8
-      Width = 613
+      Width = 597
       Align = alClient
       BorderSpacing.Around = 8
       BorderStyle = bsNone
@@ -74,6 +74,26 @@ object Form1: TForm1
       OnKeyPress = eCmdKeyPress
       ParentFont = False
       TabOrder = 0
+    end
+    object pnArrow: TPanel
+      Left = 0
+      Height = 31
+      Top = 0
+      Width = 16
+      Align = alLeft
+      Alignment = taRightJustify
+      BevelOuter = bvNone
+      Caption = '>'
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 1
+      Visible = False
     end
   end
   object cbTmp: TComboBox
@@ -104,19 +124,20 @@ object Form1: TForm1
     left = 56
     top = 16
     object MenuItem8: TMenuItem
-      Caption = 'Clear '
+      Caption = 'Clear Terminal'
       OnClick = MenuItem8Click
-    end
-    object MenuItem9: TMenuItem
-      Caption = '-'
     end
     object mnConn: TMenuItem
       Caption = 'Disconnect'
       OnClick = mnConnClick
     end
     object MenuItem10: TMenuItem
-      Caption = 'Settings'
+      Caption = 'Connecion Setup'
       OnClick = MenuItem10Click
+    end
+    object MenuItem1: TMenuItem
+      Caption = 'Startup Commands'
+      OnClick = MenuItem1Click
     end
   end
 end
