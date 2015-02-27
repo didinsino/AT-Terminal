@@ -186,38 +186,41 @@ var
   x, lstL: integer;
   lstS: string;
 begin
-  if Key = #13 then begin
-    if Trim(eCmd.Text) = '' then Exit;
-    if not vsComPort1.Active then begin
-      MessageDlg('Please connect to device first!', mtInformation, [mbOk], 0);
-      Exit;
-    end;
+  if (Key = #13) or (Key = #26) then begin
     lstL := mmCmd.Lines.Count-1;
     lstS := Trim(mmCmd.Lines[lstL]);
-    Sleep(10);
-    if LeftStr(lstS, 1) = '>' then begin
-      if lstS = '>' then mmCmd.Lines.Delete(lstL);
-      vsComPort1.WriteData(eCmd.Text + #13);
-    end else begin
-      if mmCmd.Lines.Count > 0 then
-        mmCmd.Lines.Add(sLineBreak);
-      vsComPort1.WriteData(eCmd.Text + sLineBreak);
-      x := cbTmp.Items.IndexOf(eCmd.Text);
-      if x > -1 then cbTmp.Items.Delete(x);
-      cbTmp.Items.Add(eCmd.Text);
-      cbTmp.ItemIndex := -1;
-    end;
-    eCmd.Clear;
-  end else
-
-  if (Key = #26) and (pnArrow.Visible) then begin // ctrl+z
-    if Trim(eCmd.Text) <> '' then begin
+    if Key = #13 then begin
+      if Trim(eCmd.Text) = '' then Exit;
+      if not vsComPort1.Active then begin
+        MessageDlg('Please connect to device first!', mtInformation, [mbOk], 0);
+        Exit;
+      end;
       Sleep(10);
-      vsComPort1.WriteData(eCmd.Text + #13);
+      if LeftStr(lstS, 1) = '>' then begin
+        if lstS = '>' then mmCmd.Lines.Delete(lstL);
+        vsComPort1.WriteData(eCmd.Text + #13);
+      end else begin
+        if mmCmd.Lines.Count > 0 then
+          mmCmd.Lines.Add(sLineBreak);
+        vsComPort1.WriteData(eCmd.Text + sLineBreak);
+        x := cbTmp.Items.IndexOf(eCmd.Text);
+        if x > -1 then cbTmp.Items.Delete(x);
+        cbTmp.Items.Add(eCmd.Text);
+        cbTmp.ItemIndex := -1;
+      end;
+    end else
+
+    if (Key = #26) and (pnArrow.Visible) then begin // ctrl+z
+      if Trim(eCmd.Text) <> '' then begin
+        if lstS = '>' then mmCmd.Lines.Delete(lstL);
+        Sleep(10);
+        vsComPort1.WriteData(eCmd.Text + #13);
+      end;
+      Sleep(10);
+      vsComPort1.WriteData(#26);
+      pnArrow.Visible:=False;
+      eCmd.Clear;
     end;
-    Sleep(10);
-    vsComPort1.WriteData(#26);
-    pnArrow.Visible:=False;
     eCmd.Clear;
   end;
 end;
