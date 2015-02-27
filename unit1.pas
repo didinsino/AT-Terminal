@@ -161,6 +161,8 @@ begin
   mmCmd.Perform(EM_SCROLLCARET, 0, 0);
   lstL:=mmCmd.Lines.Count-1;
   if Trim(mmCmd.Lines[lstL]) = '>' then begin
+    if Trim(mmCmd.Lines[lstL-1]) = '' then
+      mmCmd.Lines.Delete(lstL-1);
     pnArrow.Visible:=True;
   end;
 end;
@@ -182,40 +184,46 @@ end;
 procedure TForm1.eCmdKeyPress(Sender: TObject; var Key: char);
 var
   x, lstL: integer;
+  lstS: string;
 begin
   if Key = #13 then begin
+    if Trim(eCmd.Text) = '' then Exit;
     if not vsComPort1.Active then begin
       MessageDlg('Please connect to device first!', mtInformation, [mbOk], 0);
       Exit;
     end;
-    lstL:=mmCmd.Lines.Count-1;
-    if Trim(mmCmd.Lines[lstL]) = '>' then
-      mmCmd.Lines.Delete(lstL);
-    if mmCmd.Lines.Count > 0 then
-      mmCmd.Lines.Add(sLineBreak);
+    lstL := mmCmd.Lines.Count-1;
+    lstS := Trim(mmCmd.Lines[lstL]);
     Sleep(10);
-    vsComPort1.WriteData(eCmd.Text + sLineBreak);
-    x := cbTmp.Items.IndexOf(eCmd.Text);
-    if x > -1 then cbTmp.Items.Delete(x);
-    cbTmp.Items.Add(eCmd.Text);
-    cbTmp.ItemIndex := -1;
+    if LeftStr(lstS, 1) = '>' then begin
+      if lstS = '>' then mmCmd.Lines.Delete(lstL);
+      vsComPort1.WriteData(eCmd.Text + #13);
+    end else begin
+      if mmCmd.Lines.Count > 0 then
+        mmCmd.Lines.Add(sLineBreak);
+      vsComPort1.WriteData(eCmd.Text + sLineBreak);
+      x := cbTmp.Items.IndexOf(eCmd.Text);
+      if x > -1 then cbTmp.Items.Delete(x);
+      cbTmp.Items.Add(eCmd.Text);
+      cbTmp.ItemIndex := -1;
+    end;
+    eCmd.Clear;
+  end else
+
+  if (Key = #26) and (pnArrow.Visible) then begin // ctrl+z
+    if Trim(eCmd.Text) <> '' then begin
+      Sleep(10);
+      vsComPort1.WriteData(eCmd.Text + #13);
+    end;
+    Sleep(10);
+    vsComPort1.WriteData(#26);
+    pnArrow.Visible:=False;
     eCmd.Clear;
   end;
 end;
 
 procedure TForm1.eCmdKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-var
-  lstL: integer;
 begin
-  if (Key = 90) and (Shift = [ssCtrl]) then begin
-    lstL:=mmCmd.Lines.Count-1;
-    if LeftStr(mmCmd.Lines[lstL], 1) = '>' then begin
-      mmCmd.Lines[lstL] :=mmCmd.Lines[lstL] + eCmd.Text;
-      pnArrow.Visible:=False;
-      Sleep(10);
-      vsComPort1.WriteData(eCmd.Text + #26);
-    end;
-  end else
   if (Key = 38) or (Key = 40) then begin
     if Key = 38 then begin // Up arrow
       if cbTmp.ItemIndex = -1 then
@@ -238,8 +246,11 @@ begin
 end;
 
 procedure TForm1.vsComPort1RxData(Sender: TObject);
+var
+  str: string;
 begin
-  mmCmd.Text:=mmCmd.Text + vsComPort1.ReadData;
+  str:=vsComPort1.ReadData;
+  mmCmd.Text:=mmCmd.Text + str;
 end;
 
 function TForm1.ConnectToPort(dev, br: string): boolean;
