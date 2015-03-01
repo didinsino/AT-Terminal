@@ -186,7 +186,7 @@ var
   x, lstL: integer;
   lstS: string;
 begin
-  if (Key = #13) or (Key = #26) then begin
+  if Key in [#13, #26, #27] then begin
     lstL := mmCmd.Lines.Count-1;
     lstS := Trim(mmCmd.Lines[lstL]);
     if Key = #13 then begin
@@ -210,16 +210,21 @@ begin
       end;
     end else
 
-    if (Key = #26) and (pnArrow.Visible) then begin // ctrl+z
-      if Trim(eCmd.Text) <> '' then begin
-        if lstS = '>' then mmCmd.Lines.Delete(lstL);
+    if pnArrow.Visible then begin
+      if Key = #26 then begin // ctrl+z
+        if Trim(eCmd.Text) <> '' then begin
+          if lstS = '>' then mmCmd.Lines.Delete(lstL);
+          Sleep(10);
+          vsComPort1.WriteData(eCmd.Text + #13);
+        end;
         Sleep(10);
-        vsComPort1.WriteData(eCmd.Text + #13);
+        vsComPort1.WriteData(#26);
+      end else
+      if Key = #27 then begin // Esc
+        Sleep(10);
+        vsComPort1.WriteData(#27);
       end;
-      Sleep(10);
-      vsComPort1.WriteData(#26);
       pnArrow.Visible:=False;
-      eCmd.Clear;
     end;
     eCmd.Clear;
   end;
